@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, List } from '@mui/material';
 import AnnouncementCard from './Card';
 
-function AnnouncementList({ announcements, role, handleDelete, onEdit }) {
+function CardList({ announcements, role, handleDelete, onEdit }) {
   return (
     <Container>
       <List>
@@ -14,4 +14,4 @@ function AnnouncementList({ announcements, role, handleDelete, onEdit }) {
   );
 }
 
-export default AnnouncementList;
+export default CardList;

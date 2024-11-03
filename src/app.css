@@ -1,0 +1,11 @@
+.rpv-core__display--block .rpv-core__menu-item[data-testid="open__menu"] {
+    display: none !important;
+}
+
+.rpv-core__display--block .rpv-core__menu-item[data-testid="print__menu"] {
+    display: none !important;
+}
+
+.rpv-core__display--block .rpv-core__menu-item[data-testid="theme__switch-menu"] {
+    display: none !important;
+}

@@ -1,16 +1,8 @@
 // UserDialog.jsx
 import React, { useEffect, useState } from 'react';
-import {
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    TextField,
-    Button,
-    Alert,
-    MenuItem,
-} from '@mui/material';
-import { addUser } from '../services/userService';
+import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button, Alert, MenuItem, IconButton } from '@mui/material';
+import { addUser, updateUser } from '../services/userService';
+import { Replay } from '@mui/icons-material';
 
 function UserDialog({ open, handleClose, fetchData, isEditing, editUser }) {
     const [formData, setFormData] = useState({
@@ -29,13 +21,12 @@ function UserDialog({ open, handleClose, fetchData, isEditing, editUser }) {
                 setFormData({
                     nrp: editUser.nrp,
                     name: editUser.name,
-                    password: '',  // Kosongkan field password untuk edit
+                    password: '',
                     email: editUser.email,
                     roleId: editUser.roleId,
                 });
                 setError(null);
             } else {
-                // Kosongkan form jika add user
                 setFormData({
                     nrp: '',
                     name: '',
@@ -52,11 +43,18 @@ function UserDialog({ open, handleClose, fetchData, isEditing, editUser }) {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    const handleSetDefaultPassword = () => {
+        const defaultPassword = import.meta.env.VITE_DEFAULT_PASS;
+        setFormData((prevData) => ({
+            ...prevData,
+            password: defaultPassword,
+        }));
+    };
+
     const handleSave = async () => {
         try {
             if (isEditing) {
-                // await updateUser(editUser.nrp, formData);
-                console.log('edit bro');
+                await updateUser(formData);
             } else {
                 await addUser(formData);
             }
@@ -81,7 +79,7 @@ function UserDialog({ open, handleClose, fetchData, isEditing, editUser }) {
                     value={formData.nrp}
                     onChange={handleChange}
                     required
-                    disabled={isEditing}  // Disable field NRP saat edit
+                    disabled={isEditing} 
                 />
                 <TextField
                     label="Name"
@@ -93,17 +91,22 @@ function UserDialog({ open, handleClose, fetchData, isEditing, editUser }) {
                     onChange={handleChange}
                     required
                 />
-                <TextField
-                    label="Password"
-                    name="password"
-                    type="password"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required={!isEditing}
-                />
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <TextField
+                        label="Password"
+                        name="password"
+                        type="password"
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
+                        value={formData.password}
+                        onChange={handleChange}
+                        required={!isEditing}
+                    />
+                    <IconButton onClick={handleSetDefaultPassword} color="primary" >
+                        <Replay />
+                    </IconButton>
+                </div>
                 <TextField
                     label="Email"
                     name="email"
@@ -113,7 +116,6 @@ function UserDialog({ open, handleClose, fetchData, isEditing, editUser }) {
                     margin="normal"
                     value={formData.email}
                     onChange={handleChange}
-                    required
                 />
                 <TextField
                     select
@@ -132,7 +134,7 @@ function UserDialog({ open, handleClose, fetchData, isEditing, editUser }) {
                 </TextField>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose}>Cancel</Button>
+                <Button onClick={handleClose} color='secondary'>Cancel</Button>
                 <Button onClick={handleSave} color="primary">
                     Save
                 </Button>

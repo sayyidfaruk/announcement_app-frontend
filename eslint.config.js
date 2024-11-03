@@ -37,6 +37,7 @@ export default [
         'error',
         { argsIgnorePattern: '^React$', varsIgnorePattern: '^React$' },
       ],
+      "react/prop-types": "off"
     },
   },
 ]

@@ -14,3 +14,13 @@ export const deleteUser = async (id) => {
     const response = await api.delete(`/auth/user/${id}`);
     return response.data;
 };
+
+export const updateUser = async (data) => {
+    const response = await api.put('/auth/user-update', data);
+    return response.data;
+}
+
+export const changePassword = async (newPassword) => {
+    const response = await api.put('/auth/change-password', { newPassword });
+    return response.data;
+}

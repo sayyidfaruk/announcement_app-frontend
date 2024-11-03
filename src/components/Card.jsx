@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardActions, Typography, Button, IconButton, Menu, MenuItem } from '@mui/material';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Card, CardContent, CardActions, Typography, Button, IconButton, Menu, MenuItem, ListItemIcon } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { Delete, Edit, MoreVert } from '@mui/icons-material';
 
 function AnnouncementCard({ announcement, role, onDelete, onEdit }) {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -21,14 +21,17 @@ function AnnouncementCard({ announcement, role, onDelete, onEdit }) {
     };
 
     return (
-        <Card sx={{ marginY: 2, position: 'relative' }}>
+        <Card elevation={3} sx={{ mb: 2, position: 'relative' }}>
             <CardContent>
                 <Typography variant="h6">{announcement.title}</Typography>
-                <Typography variant="body2" color="textSecondary" sx={{ marginTop: 1 }}>
+                <Typography variant="body1" color="textSecondary" sx={{ marginTop: 1 }}>
                     {announcement.content}
                 </Typography>
-                <Typography variant="caption" color="text.secondary">
-                    Posted by: {announcement.nrp} | Date: {new Date(announcement.createdAt).toLocaleDateString()}
+                <Typography variant="body2" color="textSecondary" sx={{ marginTop: 1 }}>
+                    Oleh: {announcement.User.name}
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                    {new Date(announcement.updatedAt).toLocaleString()}
                 </Typography>
             </CardContent>
 
@@ -37,7 +40,7 @@ function AnnouncementCard({ announcement, role, onDelete, onEdit }) {
                     variant="outlined"
                     color="primary"
                     onClick={() => navigate(`/announcements/view/${announcement.id}`)}
-                    sx={{ marginLeft: 1 }}
+                    sx={{ marginLeft: 1, marginBottom: 1 }}
                 >
                     View
                 </Button>
@@ -49,15 +52,21 @@ function AnnouncementCard({ announcement, role, onDelete, onEdit }) {
                     onClick={handleMenuOpen}
                     sx={{ position: 'absolute', top: 8, right: 8 }}
                 >
-                    <MoreVertIcon />
+                    <MoreVert />
                 </IconButton>
             )}
 
             <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
                 <MenuItem onClick={() => onEdit(announcement)}>
+                    <ListItemIcon>
+                        <Edit fontSize="small" />
+                    </ListItemIcon>
                     Edit
                 </MenuItem>
                 <MenuItem onClick={handleDelete}>
+                    <ListItemIcon>
+                        <Delete fontSize="small" />
+                    </ListItemIcon>
                     Delete
                 </MenuItem>
             </Menu>

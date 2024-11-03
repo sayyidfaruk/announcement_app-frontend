@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography, Alert, Box, Paper } from '@mui/material';
+import { TextField, Button, Container, Alert, Box, Paper, Divider } from '@mui/material';
 import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
-import { LocalPolice } from '@mui/icons-material';
 
 function Login() {
     const [nrp, setNrp] = useState('');
@@ -18,6 +17,7 @@ function Login() {
 
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
+            password === import.meta.env.VITE_DEFAULT_PASS ? localStorage.setItem('isDefaultPassword', true): localStorage.setItem('isDefaultPassword', false)
 
             navigate('/');
         } catch (err) {
@@ -25,26 +25,18 @@ function Login() {
         }
     };
 
-
     return (
         <Container maxWidth="xs">
-            <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="center"
-                minHeight="100vh"
-            >
-                <Paper elevation={3} sx={{ padding: 5}}>
-                    <Box display='flex' alignItems="center" gap={1} marginBottom={2}>
-                        <LocalPolice />
-                        <Typography variant='body2'>Polres Garut</Typography>
-                    </Box>
-                    <Typography variant="h4" gutterBottom>
-                        Login
-                    </Typography>
-                    {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-                    <form onSubmit={handleLogin} style={{ width: '100%', marginTop: '1rem' }}>
+            <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="100vh">
+                <Paper elevation={3} sx={{ padding: 5 }}>
+                    <img
+                        src="/div_tik_polri-logo.jpeg"
+                        alt="Logo Divisi TIK Polri"
+                        style={{ maxWidth: '50%', height: 'auto', display: 'block', margin: '0 auto' }}
+                    />
+                    <Divider variant="middle" sx={{ mt: 2 }} />
+                    {error && <Alert severity="error" sx={{ my: 2 }}>{error}</Alert>}
+                    <Box component="form" onSubmit={handleLogin} sx={{ width: '100%', mt: 2 }}>
                         <TextField
                             label="NRP"
                             variant="outlined"
@@ -67,7 +59,7 @@ function Login() {
                         <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
                             Login
                         </Button>
-                    </form>
+                    </Box>
                 </Paper>
             </Box>
         </Container>

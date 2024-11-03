@@ -1,19 +1,15 @@
 // Users.jsx
 import React, { useEffect, useState } from 'react';
-import { Container, IconButton, Menu, MenuItem, Button, Box } from '@mui/material';
+import { Container, IconButton, Menu, MenuItem, Box, Fab, ListItemIcon } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { DataGrid } from '@mui/x-data-grid';
-import { MoreVert as MoreVertIcon } from '@mui/icons-material';
+import { Add, Delete, Edit, MoreVert as MoreVertIcon } from '@mui/icons-material';
 import { jwtDecode } from 'jwt-decode';
 import { deleteUser, getUsers } from '../services/userService';
 import SearchAppBar from '../components/AppBar';
-import UserDialog from '../components/UserDialog'; // Import UserDialog
+import UserDialog from '../components/UserDialog';
 
-const map = {
-    1: 'User',
-    2: 'Admin',
-    3: 'Super Admin',
-};
+const map = { 1: 'User', 2: 'Admin', 3: 'Super Admin' };
 
 function Users() {
     const [users, setUsers] = useState([]);
@@ -21,6 +17,7 @@ function Users() {
     const [selectedUser, setSelectedUser] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
     const navigate = useNavigate();
 
     const fetchData = async (token) => {
@@ -59,11 +56,6 @@ function Users() {
         setAnchorEl(null);
     };
 
-    const handlePasswordChange = () => {
-        console.log('Ubah password untuk:', selectedUser);
-        handleMenuClose();
-    };
-
     const handleUserDelete = () => {
         if (selectedUser) {
             handleDelete(selectedUser.nrp);
@@ -72,10 +64,24 @@ function Users() {
     };
 
     const handleOpenDialog = (user = null) => {
-        setIsEditing(!!user); // Set true if editing
+        setIsEditing(!!user);
         setSelectedUser(user);
         setOpenDialog(true);
     };
+
+    const handleSearch = (query) => {
+        setSearchQuery(query.toLowerCase());
+    };
+
+    const filteredUsers = users.filter(user => {
+        const roleText = map[user.roleId]?.toLowerCase() || 'unknown';
+        return (
+            user.nrp.toLowerCase().includes(searchQuery) ||
+            user.name.toLowerCase().includes(searchQuery) ||
+            user.email.toLowerCase().includes(searchQuery) ||
+            roleText.includes(searchQuery)
+        )
+    });
 
     const columns = [
         { field: 'nrp', headerName: 'NRP', flex: 1, minWidth: 100 },
@@ -101,43 +107,54 @@ function Users() {
     ];
 
     return (
-        <><SearchAppBar role={3} title={'Manage Users'} /><Container maxWidth="lg">
-            <Box my={3}>
-                <Box textAlign='right' mb={3}>
-                    <Button variant="outlined" onClick={() => handleOpenDialog()}>Add User</Button>
-                </Box>
-                <div style={{ height: 'calc(100vh - 300px)', width: '100%' }}>
-                    <DataGrid
-                        rows={users}
-                        columns={columns}
-                        pageSize={5}
-                        rowsPerPageOptions={[5]}
-                        disableSelectionOnClick
-                        getRowId={(row) => row.nrp}
-                        checkboxSelection={false}
-                        sx={{
-                            '& .MuiDataGrid-columnHeaders': {
-                                backgroundColor: 'primary.light',
-                            },
-                            '& .MuiDataGrid-cell': {
-                                padding: '8px',
-                            },
-                        }} />
-                </div>
+        <>
+            <SearchAppBar role={3} title={'Manage User'} view={false} onSearch={handleSearch} />
+            <Container maxWidth="lg">
+                <Box my={3}>
+                    <div style={{ height: 'calc(100vh - 200px)', width: '100%' }}>
+                        <DataGrid
+                            rows={filteredUsers}
+                            columns={columns}
+                            pageSize={5}
+                            rowsPerPageOptions={[5]}
+                            disableSelectionOnClick
+                            getRowId={(row) => row.nrp}
+                            checkboxSelection={false}
+                            sx={{
+                                '& .MuiDataGrid-columnHeaders': {
+                                    backgroundColor: 'primary.light',
+                                },
+                                '& .MuiDataGrid-cell': {
+                                    padding: '8px',
+                                },
+                            }} />
+                    </div>
 
-                {/* Menu untuk Ubah Password dan Hapus */}
-                <Menu
-                    anchorEl={anchorEl}
-                    open={Boolean(anchorEl)}
-                    onClose={handleMenuClose}
-                >
-                    <MenuItem onClick={() => { handleOpenDialog(selectedUser); handleMenuClose(); }}>Edit User</MenuItem>
-                    <MenuItem onClick={handleUserDelete}>Delete User</MenuItem>
-                </Menu>
-            </Box>
-            {/* Dialog untuk Add/Edit User */}
-            <UserDialog open={openDialog} handleClose={() => setOpenDialog(false)} fetchData={fetchData} isEditing={isEditing} editUser={selectedUser} />
-        </Container></>
+                    <Menu
+                        anchorEl={anchorEl}
+                        open={Boolean(anchorEl)}
+                        onClose={handleMenuClose}
+                    >
+                        <MenuItem onClick={() => { handleOpenDialog(selectedUser); handleMenuClose(); }}>
+                            <ListItemIcon>
+                                <Edit fontSize="small" />
+                            </ListItemIcon>
+                            Edit
+                        </MenuItem>
+                        <MenuItem onClick={handleUserDelete}>
+                            <ListItemIcon>
+                                <Delete fontSize="small" />
+                            </ListItemIcon>
+                            Delete
+                        </MenuItem>
+                    </Menu>
+                </Box>
+                <UserDialog open={openDialog} handleClose={() => setOpenDialog(false)} fetchData={fetchData} isEditing={isEditing} editUser={selectedUser} />
+            </Container>
+            <Fab color="primary" aria-label="add" onClick={() => handleOpenDialog()} sx={{ position: 'fixed', bottom: 24, right: 24, }}>
+                <Add />
+            </Fab>
+        </>
     );
 }
 

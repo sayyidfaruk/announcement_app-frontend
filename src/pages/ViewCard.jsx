@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import { getAnnouncementById } from '../services/announcementService';
-import { Worker, Viewer } from '@react-pdf-viewer/core';
+import { Viewer } from '@react-pdf-viewer/core';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
@@ -13,8 +13,30 @@ function ViewAnnouncement() {
     const { id } = useParams();
     const [announcement, setAnnouncement] = useState(null);
     const [role, setRole] = useState(null);
-    const baseUrl = 'http://localhost:5000/uploads/';
-    const defaultLayoutPluginInstance = defaultLayoutPlugin();
+    const baseUrl = import.meta.env.VITE_BASE_URL_FILES;
+
+    const transform = (slot) => ({
+        ...slot,
+        Download: () => null,
+        DownloadMenuItem: () => null,
+        Print: () => null,
+        Open: () => null,
+        SwitchTheme: () => null,
+    });
+    
+    const renderToolbar = (Toolbar) => (
+        <Toolbar>{renderDefaultToolbar(transform)}</Toolbar>
+    );
+
+    const defaultLayoutPluginInstance = defaultLayoutPlugin({
+        sidebarTabs: (defaultTabs) => [
+            defaultTabs[0],
+            defaultTabs[1],
+        ],
+        renderToolbar
+    });
+
+    const { renderDefaultToolbar } = defaultLayoutPluginInstance.toolbarPluginInstance;
 
     useEffect(() => {
         const token = localStorage.getItem('accessToken');
@@ -28,40 +50,46 @@ function ViewAnnouncement() {
     }, [id]);
 
     return (
-        <><SearchAppBar role={role} title={'Pengumuman'}/><Container>
-            {announcement ? (
-                <>
-                    <Typography variant="h4" marginTop={5} gutterBottom>
-                        {announcement.title}
-                    </Typography>
-                    <Typography variant="body1">
-                        {announcement.content}
-                    </Typography>
+        <>
+            <SearchAppBar role={role} title={'Pengumuman'} view={true} />
+            <Container maxWidth="md">
+                {announcement ? (
+                    <>
+                        <Typography variant="h4" marginTop={5} gutterBottom>
+                            {announcement.title}
+                        </Typography>
+                        <Typography variant="body1">
+                            {announcement.content}
+                        </Typography>
 
-                    {announcement.attachment ? (
-                        <>
-                            <Typography variant="h6">PDF Viewer:</Typography>
-                            <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-                                <div
-                                    style={{
-                                        height: '750px',
-                                        width: '900px',
-                                        marginLeft: 'auto',
-                                        marginRight: 'auto',
-                                    }}
+                        {announcement.attachment ? (
+                            <>
+                                <Typography variant="h6" marginTop={3} marginBottom={2}>
+                                    PDF Viewer:
+                                </Typography>
+                                <Box
+                                    className='viewer-container'
+                                    display="flex"
+                                    justifyContent="center"
+                                    height="100vh"
+                                    width="100%"
+                                    maxWidth="900px"
+                                    margin="auto"
                                 >
                                     <Viewer fileUrl={baseUrl + announcement.attachment} plugins={[defaultLayoutPluginInstance]} />
-                                </div>
-                            </Worker>
-                        </>
-                    ) : (
-                        <Typography>No PDF available</Typography>
-                    )}
-                </>
-            ) : (
-                <Typography>Loading announcement...</Typography>
-            )}
-        </Container></>
+                                </Box>
+                            </>
+                        ) : (
+                            <Typography variant="body2" color="textSecondary">
+                                No PDF available
+                            </Typography>
+                        )}
+                    </>
+                ) : (
+                    <Typography>Loading announcement...</Typography>
+                )}
+            </Container>
+        </>
     );
 }
 
