@@ -8,6 +8,7 @@ import { Worker } from '@react-pdf-viewer/core';
 import './app.css'
 import { ThemeProvider } from '@mui/material';
 import { theme } from './themes/theme';
+import NotAuthorized from './pages/NotAuthorized';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/announcements/view/:id" element={<ViewAnnouncement />} />
             <Route path="/users" element={<ManageUsers />} />
+            <Route path="/not-authorized" element={<NotAuthorized />} />
           </Routes>
         </Router>
       </Worker>

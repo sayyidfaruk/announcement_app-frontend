@@ -32,18 +32,27 @@ function Home() {
   };
   const fetchData = async () => {
     const data = await getAnnouncements();
-    setAnnouncements(data);
+    const sortedData = data.sort((a, b) => new Date(b['updatedAt']) - new Date(a['updatedAt']));
+    setAnnouncements(sortedData);
   };
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
+
     if (!token) {
       navigate('/login');
+      return;
     }
-    const decode = jwtDecode(token);
-    setRole(decode.role);
-    setIsDefaultPassword(localStorage.getItem('isDefaultPassword') === 'true');
-    fetchData();
+
+    try {
+      const decode = jwtDecode(token);
+      setRole(decode.role);
+      setIsDefaultPassword(localStorage.getItem('isDefaultPassword') === 'true');
+      fetchData();
+    } catch (error) {
+      console.error("Invalid token:", error);
+      navigate('/login');
+    }
   }, [navigate]);
 
   const handleDelete = async (id) => {

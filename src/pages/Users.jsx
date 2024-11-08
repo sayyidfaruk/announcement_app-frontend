@@ -1,4 +1,3 @@
-// Users.jsx
 import React, { useEffect, useState } from 'react';
 import { Container, IconButton, Menu, MenuItem, Box, Fab, ListItemIcon } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -27,13 +26,21 @@ function Users() {
 
     useEffect(() => {
         const token = localStorage.getItem('accessToken');
-        if (token) {
+        
+        if (!token) {
+            navigate('/login');
+            return;
+        }
+
+        try {
             const decoded = jwtDecode(token);
             if (decoded.role !== 3) {
                 navigate('/not-authorized');
+                return;
             }
             fetchData(token);
-        } else {
+        } catch (error) {
+            console.error("Invalid token:", error);
             navigate('/login');
         }
     }, [navigate, selectedUser]);

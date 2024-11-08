@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Container, Typography } from '@mui/material';
 import { getAnnouncementById } from '../services/announcementService';
 import { Viewer } from '@react-pdf-viewer/core';
@@ -13,6 +13,7 @@ function ViewAnnouncement() {
     const { id } = useParams();
     const [announcement, setAnnouncement] = useState(null);
     const [role, setRole] = useState(null);
+    const navigate = useNavigate();
     const baseUrl = import.meta.env.VITE_BASE_URL_FILES;
 
     const transform = (slot) => ({
@@ -40,14 +41,27 @@ function ViewAnnouncement() {
 
     useEffect(() => {
         const token = localStorage.getItem('accessToken');
-        const decode = jwtDecode(token);
-        setRole(decode.role);
+        
+        if (token) {
+            const decode = jwtDecode(token);
+            setRole(decode.role);
+        } else {
+            navigate('/login');
+        }
+    }, [navigate]);
+    
+    useEffect(() => {
         const fetchAnnouncement = async () => {
             const data = await getAnnouncementById(id);
             setAnnouncement(data);
         };
-        fetchAnnouncement();
-    }, [id]);
+    
+        if (role === 1 || role === 2 || role === 3) {
+            fetchAnnouncement();
+        } else if (role !== null) {
+            navigate('/not-authorized');
+        }
+    }, [role, id, navigate]);    
 
     return (
         <>

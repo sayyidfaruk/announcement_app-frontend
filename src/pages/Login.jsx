@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Container, Alert, Box, Paper, Divider } from '@mui/material';
+import { TextField, Button, Container, Alert, Box, Paper, Divider, Typography } from '@mui/material';
 import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,7 +17,7 @@ function Login() {
 
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
-            password === import.meta.env.VITE_DEFAULT_PASS ? localStorage.setItem('isDefaultPassword', true): localStorage.setItem('isDefaultPassword', false)
+            password === import.meta.env.VITE_DEFAULT_PASS ? localStorage.setItem('isDefaultPassword', true) : localStorage.setItem('isDefaultPassword', false)
 
             navigate('/');
         } catch (err) {
@@ -56,6 +56,14 @@ function Login() {
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
+                        <Typography
+                            variant="body2"
+                            color="primary"
+                            sx={{ cursor: 'pointer', textAlign: 'right', mt: 1 }}
+                            onClick={() => window.open(import.meta.env.VITE_CONTACT, '_blank')}
+                        >
+                            Lupa Password?
+                        </Typography>
                         <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
                             Login
                         </Button>
