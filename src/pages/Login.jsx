@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Container, Alert, Box, Paper, Divider, Typography } from '@mui/material';
 import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
+import PasswordField from '../components/PasswordField';
 
 function Login() {
     const [nrp, setNrp] = useState('');
@@ -46,16 +47,7 @@ function Login() {
                             onChange={(e) => setNrp(e.target.value)}
                             required
                         />
-                        <TextField
-                            label="Password"
-                            type="password"
-                            variant="outlined"
-                            fullWidth
-                            margin="normal"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
+                        <PasswordField password={password} setPassword={setPassword} />
                         <Typography
                             variant="body2"
                             color="primary"

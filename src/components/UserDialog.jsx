@@ -1,8 +1,8 @@
-// UserDialog.jsx
 import React, { useEffect, useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button, Alert, MenuItem, IconButton } from '@mui/material';
 import { addUser, updateUser } from '../services/userService';
 import { Replay } from '@mui/icons-material';
+import PasswordField from './PasswordField';
 
 function UserDialog({ open, handleClose, fetchData, isEditing, editUser }) {
     const [formData, setFormData] = useState({
@@ -92,17 +92,7 @@ function UserDialog({ open, handleClose, fetchData, isEditing, editUser }) {
                     required
                 />
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <TextField
-                        label="Password"
-                        name="password"
-                        type="password"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        value={formData.password}
-                        onChange={handleChange}
-                        required={!isEditing}
-                    />
+                    <PasswordField password={formData.password} setPassword={handleChange} isEditing={isEditing} isAdd={true} />
                     <IconButton onClick={handleSetDefaultPassword} color="primary" >
                         <Replay />
                     </IconButton>
