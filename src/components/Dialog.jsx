@@ -38,6 +38,8 @@ export default function AddAnnouncementDialog({ open, handleClose, fetchData, is
             }
 
             fetchData();
+            setAnnouncement({ title: '', content: '' });
+            setFile(null);
             handleClose();
         } catch (error) {
             console.error('Failed to save announcement:', error);
