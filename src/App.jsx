@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import Login from './pages/login';
+import Login from './pages/Login';
 import ViewAnnouncement from './pages/ViewCard';
 import ManageUsers from './pages/Users';
 import { Worker } from '@react-pdf-viewer/core';

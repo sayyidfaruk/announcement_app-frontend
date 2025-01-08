@@ -35,7 +35,7 @@ export default function SearchAppBar({ role, title, view, onSearch }) {
 
     const menuItems = [
         { text: 'Pengumuman', path: '/', icon: <Campaign /> },
-        ...(role === 3 ? [{ text: 'Manage User', path: '/users', icon: <ManageAccounts /> }] : [])
+        ...(role === 3 ? [{ text: 'User', path: '/users', icon: <ManageAccounts /> }] : [])
     ];
 
     return (
@@ -68,7 +68,7 @@ export default function SearchAppBar({ role, title, view, onSearch }) {
                                 <SearchIcon />
                             </SearchIconWrapper>
                             <StyledInputBase
-                                placeholder="Search…"
+                                placeholder="Cari…"
                                 inputProps={{ 'aria-label': 'search' }}
                                 onChange={(e) => onSearch(e.target.value)}
                             />

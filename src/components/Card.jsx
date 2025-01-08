@@ -42,7 +42,7 @@ function AnnouncementCard({ announcement, role, onDelete, onEdit }) {
                     onClick={() => navigate(`/announcements/view/${announcement.id}`)}
                     sx={{ marginLeft: 1, marginBottom: 1 }}
                 >
-                    View
+                    Lihat
                 </Button>
             </CardActions>
 
@@ -67,7 +67,7 @@ function AnnouncementCard({ announcement, role, onDelete, onEdit }) {
                     <ListItemIcon>
                         <Delete fontSize="small" />
                     </ListItemIcon>
-                    Delete
+                    Hapus
                 </MenuItem>
             </Menu>
         </Card>

@@ -92,12 +92,12 @@ function Users() {
 
     const columns = [
         { field: 'nrp', headerName: 'NRP', flex: 1, minWidth: 100 },
-        { field: 'name', headerName: 'Name', flex: 2, minWidth: 150 },
+        { field: 'name', headerName: 'Nama', flex: 2, minWidth: 150 },
         { field: 'roleId', headerName: 'Role', flex: 1, minWidth: 100, valueGetter: (params) => map[params] || 'Unknown' },
         { field: 'email', headerName: 'Email', flex: 2, minWidth: 200 },
         {
             field: 'actions',
-            headerName: 'Actions',
+            headerName: 'Opsi',
             flex: 1,
             minWidth: 80,
             renderCell: (params) => (
@@ -115,7 +115,7 @@ function Users() {
 
     return (
         <>
-            <SearchAppBar role={3} title={'Manage User'} view={false} onSearch={handleSearch} />
+            <SearchAppBar role={3} title={'User'} view={false} onSearch={handleSearch} />
             <Container maxWidth="lg">
                 <Box my={3}>
                     <div style={{ height: 'calc(100vh - 200px)', width: '100%' }}>
@@ -152,7 +152,7 @@ function Users() {
                             <ListItemIcon>
                                 <Delete fontSize="small" />
                             </ListItemIcon>
-                            Delete
+                            Hapus
                         </MenuItem>
                     </Menu>
                 </Box>

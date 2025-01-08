@@ -69,7 +69,7 @@ export default function AddAnnouncementDialog({ open, handleClose, fetchData, is
                         <CloseIcon />
                     </IconButton>
                     <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                        {isEditing ? 'Edit Announcement' : 'Add Announcement'}
+                        {isEditing ? 'Edit Pengumuman' : 'Buat Pengumuman'}
                     </Typography>
                     <Button autoFocus color="inherit" onClick={handleSave}>
                         Save
@@ -79,7 +79,7 @@ export default function AddAnnouncementDialog({ open, handleClose, fetchData, is
 
             <Container maxWidth="sm" sx={{ py: 4 }}>
                 <TextField
-                    label="Title"
+                    label="Judul"
                     variant="outlined"
                     fullWidth
                     margin="normal"
@@ -87,7 +87,7 @@ export default function AddAnnouncementDialog({ open, handleClose, fetchData, is
                     onChange={(e) => setAnnouncement({ ...announcement, title: e.target.value })}
                 />
                 <TextField
-                    label="Content"
+                    label="Deskripsi"
                     variant="outlined"
                     fullWidth
                     multiline
@@ -108,11 +108,11 @@ export default function AddAnnouncementDialog({ open, handleClose, fetchData, is
                     <input {...getInputProps()} />
                     {isDragActive ? (
                         <Typography variant="body2" color="primary">
-                            Drop the file here...
+                            Letakkan file di sini...
                         </Typography>
                     ) : (
                         <Typography variant="body2" color="textSecondary">
-                            Drag & drop a PDF file here, or click to select one
+                            Seret dan lepaskan file PDF di sini, atau klik untuk memilih file
                         </Typography>
                     )}
                     {file && <Typography mt={2} variant="body2" color="textSecondary">{file.name}</Typography>}

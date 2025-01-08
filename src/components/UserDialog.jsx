@@ -67,7 +67,7 @@ function UserDialog({ open, handleClose, fetchData, isEditing, editUser }) {
 
     return (
         <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>{isEditing ? 'Edit User' : 'Add User'}</DialogTitle>
+            <DialogTitle>{isEditing ? 'Edit User' : 'Buat User'}</DialogTitle>
             <DialogContent>
                 {error && <Alert severity="error">{error}</Alert>}
                 <TextField
@@ -82,7 +82,7 @@ function UserDialog({ open, handleClose, fetchData, isEditing, editUser }) {
                     disabled={isEditing} 
                 />
                 <TextField
-                    label="Name"
+                    label="Nama"
                     name="name"
                     variant="outlined"
                     fullWidth
