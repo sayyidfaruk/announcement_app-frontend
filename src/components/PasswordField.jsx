@@ -28,7 +28,10 @@ function PasswordField({ password, setPassword, isEditing=false, isAdd=false}) {
                                 {showPassword ? <VisibilityOff /> : <Visibility />}
                             </IconButton>
                         </InputAdornment>
-                    )
+                    ),
+                    sx: {
+                        borderRadius: "10px",
+                    }
                 }
             }}
         />

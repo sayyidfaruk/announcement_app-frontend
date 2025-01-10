@@ -27,16 +27,16 @@ function Login() {
     };
 
     return (
-        <Container maxWidth="xs">
+        <Container maxWidth="sm">
             <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="100vh">
-                <Paper elevation={3} sx={{ padding: 5 }}>
+                <Paper elevation={3} sx={{ padding: 5, borderRadius: '16px' }}>
                     <img
                         src="/div_tik_polri-logo.jpeg"
                         alt="Logo Divisi TIK Polri"
-                        style={{ maxWidth: '50%', height: 'auto', display: 'block', margin: '0 auto' }}
+                        style={{ maxWidth: '40%', height: 'auto', display: 'block', margin: '0 auto', borderRadius: '12px' }}
                     />
                     <Divider variant="middle" sx={{ mt: 2 }} />
-                    {error && <Alert severity="error" sx={{ my: 2 }}>{error}</Alert>}
+                    {error && <Alert severity="error" sx={{ my: 2, borderRadius: '8px' }}>{error}</Alert>}
                     <Box component="form" onSubmit={handleLogin} sx={{ width: '100%', mt: 2 }}>
                         <TextField
                             label="NRP"
@@ -46,6 +46,15 @@ function Login() {
                             value={nrp}
                             onChange={(e) => setNrp(e.target.value)}
                             required
+                            slotProps={
+                                {
+                                    input: {
+                                        sx: {
+                                            borderRadius: '10px',
+                                        },
+                                    },
+                                }
+                            }
                         />
                         <PasswordField password={password} setPassword={setPassword} />
                         <Typography
@@ -56,7 +65,7 @@ function Login() {
                         >
                             Lupa Password?
                         </Typography>
-                        <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
+                        <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2, borderRadius: '8px' }}>
                             Login
                         </Button>
                     </Box>

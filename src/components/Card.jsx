@@ -1,78 +1,95 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardActions, Typography, Button, IconButton, Menu, MenuItem, ListItemIcon } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { Delete, Edit, MoreVert } from '@mui/icons-material';
+import React from 'react';
+import {
+    Card,
+    CardContent,
+    Typography,
+    Button,
+    Box,
+    IconButton,
+} from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function AnnouncementCard({ announcement, role, onDelete, onEdit }) {
-    const [anchorEl, setAnchorEl] = useState(null);
-    const navigate = useNavigate();
-
-    const handleMenuOpen = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-    };
-
-    const handleDelete = () => {
-        onDelete(announcement.id);
-        handleMenuClose();
-    };
-
     return (
-        <Card elevation={3} sx={{ mb: 2, position: 'relative' }}>
-            <CardContent>
-                <Typography variant="h6">{announcement.title}</Typography>
-                <Typography variant="body1" color="textSecondary" sx={{ marginTop: 1 }}>
-                    {announcement.content}
+        <Card
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                aspectRatio: '3 / 2', // Rasio aspek (lebar:tinggi)
+                padding: 0, // Menghilangkan padding default
+            }}
+        >
+            <CardContent
+                sx={{
+                    padding: 2, // Padding konten dalam kartu
+                    flexGrow: 1, // Membuat konten memenuhi ruang vertikal
+                }}
+            >
+                {/* Judul */}
+                <Typography
+                    variant="h6"
+                    component="h2"
+                    sx={{
+                        textOverflow: 'ellipsis',
+                        overflow: 'hidden',
+                        display: '-webkit-box',
+                        WebkitBoxOrient: 'vertical',
+                        WebkitLineClamp: 2, // Membatasi maksimal 2 baris
+                    }}
+                >
+                    {announcement.title.length > 50
+                        ? `${announcement.title.substring(0, 50)}...`
+                        : announcement.title}
                 </Typography>
-                <Typography variant="body2" color="textSecondary" sx={{ marginTop: 1 }}>
-                    Oleh: {announcement.User.name}
+
+                {/* Tanggal Dibuat */}
+                <Typography
+                    variant="caption"
+                    color="text.secondary"
+                    sx={{ display: 'block', marginBottom: 1 }}
+                >
+                    Dibuat {new Date(announcement.createdAt).toLocaleDateString('id-ID')}
                 </Typography>
-                <Typography variant="body2" color="textSecondary">
-                    {new Date(announcement.updatedAt).toLocaleString()}
+
+                {/* Deskripsi */}
+                <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{
+                        textOverflow: 'ellipsis',
+                        overflow: 'hidden',
+                        display: '-webkit-box',
+                        WebkitBoxOrient: 'vertical',
+                        WebkitLineClamp: 3, // Membatasi maksimal 3 baris
+                    }}
+                >
+                    {announcement.content.length > 100
+                        ? `${announcement.content.substring(0, 100)}...`
+                        : announcement.content}
                 </Typography>
             </CardContent>
-
-            <CardActions>
-                <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={() => navigate(`/announcements/view/${announcement.id}`)}
-                    sx={{ marginLeft: 1, marginBottom: 1 }}
-                >
-                    Lihat
-                </Button>
-            </CardActions>
-
-            {(role === 2 || role === 3) && (
-                <IconButton
-                    aria-label="more options"
-                    onClick={handleMenuOpen}
-                    sx={{ position: 'absolute', top: 8, right: 8 }}
-                >
-                    <MoreVert />
-                </IconButton>
-            )}
-
-            <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
-                <MenuItem onClick={() => onEdit(announcement)}>
-                    <ListItemIcon>
-                        <Edit fontSize="small" />
-                    </ListItemIcon>
-                    Edit
-                </MenuItem>
-                <MenuItem onClick={handleDelete}>
-                    <ListItemIcon>
-                        <Delete fontSize="small" />
-                    </ListItemIcon>
-                    Hapus
-                </MenuItem>
-            </Menu>
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    p: 2,
+                }}
+            >
+                <Button size="small">Lihat Detail</Button>
+                {role >= 2 && (
+                    <Box>
+                        <IconButton onClick={() => onEdit(announcement)}>
+                            <EditIcon />
+                        </IconButton>
+                        <IconButton onClick={() => onDelete(announcement.id)}>
+                            <DeleteIcon />
+                        </IconButton>
+                    </Box>
+                )}
+            </Box>
         </Card>
     );
 }
-
 
 export default AnnouncementCard;
