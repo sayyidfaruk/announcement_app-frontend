@@ -42,9 +42,24 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export const theme = createTheme({
+    components: {
+        MuiListItemButton: {
+            styleOverrides: {
+                root: {
+                    '&.Mui-selected': {
+                        backgroundColor: '#2462EA',
+                        color: '#FFFFFF',
+                        '&:hover': {
+                            backgroundColor: '#1E4CB3',
+                        },
+                    },
+                },
+            },
+        },
+    },
     palette: {
         primary: {
-            main: '#0367A6', 
+            main: '#2462EA',
         },
         secondary: {
             main: '#4AA2D9',

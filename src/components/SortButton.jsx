@@ -21,11 +21,17 @@ function SortButton({ onSort }) {
     return (
         <>
             <Tooltip title="Sort Announcements">
-                <IconButton onClick={handleClick} color="primary" sx={{mt: 1}}>
+                <IconButton onClick={handleClick} color="primary" sx={{ mt: 1 }}>
                     <Sort fontSize='large' />
                 </IconButton>
             </Tooltip>
-            <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+            <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose} slotProps={{
+                paper: {
+                    sx: {
+                        borderRadius: '12px',
+                    },
+                },
+            }}>
                 <MenuItem onClick={() => handleSort("Terbaru")}>
                     <ListItemIcon>
                         <ArrowUpward fontSize="small" />

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button, Alert, DialogContentText } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button, Alert, DialogContentText, Typography, IconButton } from '@mui/material';
 import { changePassword } from '../services/userService';
+import { Clear } from '@mui/icons-material';
 
 function ChangePasswordDialog({ open, onClose }) {
     const [newPassword, setNewPassword] = useState('');
@@ -22,9 +23,24 @@ function ChangePasswordDialog({ open, onClose }) {
     };
 
     return (
-        <Dialog open={open} onClose={onClose}>
-            <DialogTitle>Ganti Password</DialogTitle>
-            <DialogContent>
+        <Dialog
+            open={open}
+            onClose={onClose}
+            PaperProps={{
+                style: { borderRadius: 15 }
+            }}
+        >
+            <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Typography variant="h6" fontWeight="bold">
+                    Ganti Password
+                </Typography>
+                <IconButton
+                    edge="end"
+                    onClick={onClose}>
+                    <Clear />
+                </IconButton>
+            </DialogTitle>
+            <DialogContent sx={{ pb: 1 }}>
                 {error && <Alert severity="error">{error}</Alert>}
                 {success && <Alert severity="success">Password berhasil diubah!</Alert>}
                 <DialogContentText>
@@ -34,16 +50,17 @@ function ChangePasswordDialog({ open, onClose }) {
                     label="Password Baru"
                     type="password"
                     variant="outlined"
+                    size="medium"
                     fullWidth
                     margin="normal"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                     required
+                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: '15px' } }}
                 />
             </DialogContent>
-            <DialogActions>
-                <Button onClick={onClose} color="secondary">Cancel</Button>
-                <Button onClick={handleChangePassword} color="primary">Save</Button>
+            <DialogActions sx={{ px: 3, pb: 3, pt: 0 }}>
+                <Button onClick={handleChangePassword} variant="contained" size="large" sx={{ borderRadius: '13px', textTransform: 'none' }}>Simpan</Button>
             </DialogActions>
         </Dialog>
     );

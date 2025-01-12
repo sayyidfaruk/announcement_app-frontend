@@ -1,28 +1,22 @@
 import React from 'react';
-import { Box } from '@mui/material';
+import { Grid } from '@mui/material';
 import AnnouncementCard from './Card';
 
-function CardList({ announcements, role, handleDelete, onEdit }) {
+function CardList({ announcements, role, handleDelete, onEdit, onViewDetail }) {
     return (
-        <Box
-            sx={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', // Lebar kartu maksimal
-                gap: 2, // Gap antar-kartu (horizontal dan vertikal)
-                justifyContent: 'center',
-                p: 2,
-            }}
-        >
+        <Grid container spacing={2} sx={{ p: 2 }}>
             {announcements.map((announcement) => (
-                <AnnouncementCard
-                    key={announcement.id}
-                    announcement={announcement}
-                    role={role}
-                    onDelete={handleDelete}
-                    onEdit={onEdit}
-                />
+                <Grid item xs={12} sm={6} md={4} lg={3} key={announcement.id}>
+                    <AnnouncementCard
+                        announcement={announcement}
+                        role={role}
+                        onDelete={handleDelete}
+                        onEdit={onEdit}
+                        onViewDetail={onViewDetail}
+                    />
+                </Grid>
             ))}
-        </Box>
+        </Grid>
     );
 }
 

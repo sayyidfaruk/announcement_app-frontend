@@ -7,35 +7,42 @@ import {
     Box,
     IconButton,
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { DeleteOutlined, EditOutlined, TextSnippetOutlined } from '@mui/icons-material';
 
-function AnnouncementCard({ announcement, role, onDelete, onEdit }) {
+function AnnouncementCard({ announcement, role, onDelete, onEdit, onViewDetail }) {
     return (
         <Card
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                aspectRatio: '3 / 2', // Rasio aspek (lebar:tinggi)
-                padding: 0, // Menghilangkan padding default
+                justifyContent: 'space-between',
+                height: '250px', // Tetapkan tinggi tetap untuk kartu
+                maxWidth: '300px', // Batas maksimum lebar
+                margin: 'auto', // Menjaga kartu tetap di tengah
+                borderRadius: 4,
+                boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+                border: '1px solid rgba(131, 131, 131, 0.22)',
+                overflow: 'hidden', // Hindari konten keluar dari kartu
             }}
         >
             <CardContent
                 sx={{
-                    padding: 2, // Padding konten dalam kartu
-                    flexGrow: 1, // Membuat konten memenuhi ruang vertikal
+                    flex: 1,
+                    padding: 2,
+                    overflow: 'hidden',
                 }}
             >
                 {/* Judul */}
                 <Typography
                     variant="h6"
-                    component="h2"
+                    color='#2462EA'
+                    fontWeight={600}
                     sx={{
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
                         display: '-webkit-box',
                         WebkitBoxOrient: 'vertical',
-                        WebkitLineClamp: 2, // Membatasi maksimal 2 baris
+                        WebkitLineClamp: 2,
                     }}
                 >
                     {announcement.title.length > 50
@@ -47,9 +54,9 @@ function AnnouncementCard({ announcement, role, onDelete, onEdit }) {
                 <Typography
                     variant="caption"
                     color="text.secondary"
-                    sx={{ display: 'block', marginBottom: 1 }}
+                    sx={{ marginBottom: 1 }}
                 >
-                    Dibuat {new Date(announcement.createdAt).toLocaleDateString('id-ID')}
+                    Dibuat {new Date(announcement.createdAt).toLocaleString('id-ID')}
                 </Typography>
 
                 {/* Deskripsi */}
@@ -61,14 +68,16 @@ function AnnouncementCard({ announcement, role, onDelete, onEdit }) {
                         overflow: 'hidden',
                         display: '-webkit-box',
                         WebkitBoxOrient: 'vertical',
-                        WebkitLineClamp: 3, // Membatasi maksimal 3 baris
+                        WebkitLineClamp: 3,
                     }}
                 >
-                    {announcement.content.length > 100
-                        ? `${announcement.content.substring(0, 100)}...`
+                    {announcement.content.length > 120
+                        ? `${announcement.content.substring(0, 120)}...`
                         : announcement.content}
                 </Typography>
             </CardContent>
+
+            {/* Tombol */}
             <Box
                 sx={{
                     display: 'flex',
@@ -76,14 +85,44 @@ function AnnouncementCard({ announcement, role, onDelete, onEdit }) {
                     p: 2,
                 }}
             >
-                <Button size="small">Lihat Detail</Button>
-                {role >= 2 && (
+                <Button
+                    size="small"
+                    variant="outlined"
+                    startIcon={<TextSnippetOutlined />}
+                    onClick={() => onViewDetail(announcement)}
+                    sx={{
+                        borderRadius: '13px',
+                        textTransform: 'none',
+                        color: theme => theme.palette.grey[700],
+                        borderColor: theme => theme.palette.grey[400],
+                        '&:hover': {
+                            borderColor: theme => theme.palette.grey[400],
+                        },
+                    }}
+                >
+                    Lihat Detail
+                </Button>
+                {(role === 2 || role === 3) && (
                     <Box>
-                        <IconButton onClick={() => onEdit(announcement)}>
-                            <EditIcon />
+                        <IconButton
+                            edge="end"
+                            sx={{
+                                borderRadius: '13px',
+                                marginLeft: { xs: 'auto', sm: 2 },
+                                padding: '8px',
+                            }}
+                            onClick={() => onEdit(announcement)}>
+                            <EditOutlined />
                         </IconButton>
-                        <IconButton onClick={() => onDelete(announcement.id)}>
-                            <DeleteIcon />
+                        <IconButton
+                            edge="end"
+                            sx={{
+                                borderRadius: '13px',
+                                marginLeft: { xs: 'auto', sm: 2 },
+                                padding: '8px',
+                            }}
+                            onClick={() => onDelete(announcement.id)}>
+                            <DeleteOutlined />
                         </IconButton>
                     </Box>
                 )}

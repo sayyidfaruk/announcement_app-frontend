@@ -6,7 +6,7 @@ function NotAuthorized() {
     const navigate = useNavigate();
 
     const handleGoBack = () => {
-        navigate('/');  
+        navigate('/');
     };
 
     const handleLogin = () => {
@@ -24,16 +24,16 @@ function NotAuthorized() {
                 textAlign="center"
             >
                 <Typography variant="h4" color="error" gutterBottom>
-                    Access Denied
+                    Akses Ditolak
                 </Typography>
                 <Typography variant="body1" gutterBottom>
-                    You do not have the necessary permissions to view this page.
+                    Anda tidak memiliki izin yang diperlukan untuk melihat halaman ini.
                 </Typography>
                 <Box mt={4}>
-                    <Button variant="contained" color="primary" onClick={handleGoBack} sx={{ mr: 2 }}>
-                        Go to Home
+                    <Button variant="contained" color="primary" size='large' onClick={handleGoBack} sx={{ borderRadius: '10px', textTransform: 'none', mr: 1 }}>
+                        Menuju Beranda
                     </Button>
-                    <Button variant="outlined" color="primary" onClick={handleLogin}>
+                    <Button variant="outlined" color="primary" size='large' sx={{ borderRadius: '10px', textTransform: 'none' }} onClick={handleLogin}>
                         Login
                     </Button>
                 </Box>

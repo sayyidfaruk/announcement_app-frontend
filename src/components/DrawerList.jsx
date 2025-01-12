@@ -15,7 +15,7 @@ function DrawerList({ drawerOpen, toggleDrawer, menuItems }) {
                 onKeyDown={toggleDrawer(false)}
             >
                 <img
-                    src="/div_tik_polri-logo.jpeg"
+                    src="/div_tik_polri-logo.png"
                     alt="Logo Divisi TIK Polri"
                     style={{ maxWidth: '50%', height: 'auto', display: 'block', margin: 'auto', padding: 30 }}
                 />

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { TextField, Button, Container, Alert, Box, Paper, Divider, Typography } from '@mui/material';
+import { Button, Container, Alert, Box, Paper, Divider, Typography, FormLabel } from '@mui/material';
 import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import PasswordField from '../components/PasswordField';
+import InputForm from '../components/InputForm';
 
 function Login() {
     const [nrp, setNrp] = useState('');
@@ -31,31 +32,16 @@ function Login() {
             <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="100vh">
                 <Paper elevation={3} sx={{ padding: 5, borderRadius: '16px' }}>
                     <img
-                        src="/div_tik_polri-logo.jpeg"
+                        src="/div_tik_polri-logo.png"
                         alt="Logo Divisi TIK Polri"
-                        style={{ maxWidth: '40%', height: 'auto', display: 'block', margin: '0 auto', borderRadius: '12px' }}
+                        style={{ maxWidth: '45%', height: 'auto', display: 'block', margin: '0 auto', borderRadius: '12px' }}
                     />
                     <Divider variant="middle" sx={{ mt: 2 }} />
                     {error && <Alert severity="error" sx={{ my: 2, borderRadius: '8px' }}>{error}</Alert>}
                     <Box component="form" onSubmit={handleLogin} sx={{ width: '100%', mt: 2 }}>
-                        <TextField
-                            label="NRP"
-                            variant="outlined"
-                            fullWidth
-                            margin="normal"
-                            value={nrp}
-                            onChange={(e) => setNrp(e.target.value)}
-                            required
-                            slotProps={
-                                {
-                                    input: {
-                                        sx: {
-                                            borderRadius: '10px',
-                                        },
-                                    },
-                                }
-                            }
-                        />
+                        <InputForm name={'NRP'} placeholder={"NRP"} value={nrp} setValue={(e) => setNrp(e.target.value)}/>
+                        <Box sx={{ mt: 2 }} />
+                        <FormLabel htmlFor="password" sx={{ color: 'black'}}>Password</FormLabel>
                         <PasswordField password={password} setPassword={setPassword} />
                         <Typography
                             variant="body2"
@@ -65,7 +51,7 @@ function Login() {
                         >
                             Lupa Password?
                         </Typography>
-                        <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2, borderRadius: '8px' }}>
+                        <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2, borderRadius: '13px', textTransform: 'none' }}>
                             Login
                         </Button>
                     </Box>
