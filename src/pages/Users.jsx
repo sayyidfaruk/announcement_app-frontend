@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Layout from '../components/layout'
+import Layout from '../components/Layout'
 import { Box, Button } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import UserTable from '../components/UserTable';

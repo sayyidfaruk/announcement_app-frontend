@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { deleteAnnouncement, getAnnouncements } from '../services/announcementService';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
-import Layout from '../components/layout';
+import Layout from '../components/Layout';
 import { Box, Button } from '@mui/material';
 import SortButton from '../components/SortButton';
 import { Add } from '@mui/icons-material';
