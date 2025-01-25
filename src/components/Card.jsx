@@ -56,7 +56,7 @@ function AnnouncementCard({ announcement, role, onDelete, onEdit, onViewDetail }
                     color="text.secondary"
                     sx={{ marginBottom: 1 }}
                 >
-                    Dibuat {new Date(announcement.createdAt).toLocaleString('id-ID')}
+                    Dibuat {new Date(announcement.updatedAt).toLocaleString('id-ID')}
                 </Typography>
 
                 {/* Deskripsi */}

@@ -1,6 +1,7 @@
 import React from 'react'
-import { Box, Dialog, DialogContent, DialogTitle, Typography } from '@mui/material';
+import { Box, Dialog, DialogContent, DialogTitle, IconButton, Typography } from '@mui/material';
 import PdfViewer from './PdfViewer';
+import { Clear } from '@mui/icons-material';
 
 export default function AnnouncementView({ selectedAnnouncement, setSelectedAnnouncement }) {
     return (
@@ -15,7 +16,16 @@ export default function AnnouncementView({ selectedAnnouncement, setSelectedAnno
         >
             {selectedAnnouncement && (
                 <>
-                    <DialogTitle fontWeight={'bold'}>{selectedAnnouncement.title}</DialogTitle>
+                    <DialogTitle display={'flex'} justifyContent={'space-between'} alignItems='center'>
+                        <Typography variant="h6" fontWeight="bold">
+                            {selectedAnnouncement.title}
+                        </Typography>
+                        <IconButton
+                            edge="end"
+                            onClick={() => setSelectedAnnouncement(null)}>
+                            <Clear />
+                        </IconButton>
+                    </DialogTitle>
                     <DialogContent>
                         <Typography variant="subtitle2" color="textSecondary">
                             Dibuat oleh {selectedAnnouncement.User.name}, {new Date(selectedAnnouncement.createdAt).toLocaleDateString('id-ID')}
