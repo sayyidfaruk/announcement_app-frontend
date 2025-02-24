@@ -35,7 +35,7 @@ function AnnouncementCard({ announcement, role, onDelete, onEdit, onViewDetail }
                 {/* Judul */}
                 <Typography
                     variant="h6"
-                    color='#2462EA'
+                    color='#24623'
                     fontWeight={600}
                     sx={{
                         textOverflow: 'ellipsis',
